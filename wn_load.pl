@@ -12,26 +12,26 @@ seminfo(['g']).
 
 allwn(L):-
   semrels(L),
-  writef('\nSemantic Relations: %w\n', [L]).
+  format("\nSemantic Relations: ~w\n", [L]).
 allwn(L):-
   lexrels(L),
-  writef('\nLexical Relations: %w\n', [L]).
+  format("\nLexical Relations: ~w\n", [L]).
 allwn(L):-
   lexinfo(L),
-  writef('\nLexical Info: %w\n', [L]).
+  format("\nLexical Info: ~w\n", [L]).
 allwn(L):-
   seminfo(L),
-  writef('\nSemantic Info: %w\n', [L]).
+  format("\nSemantic Info: ~w\n", [L]).
 
 /* ------------------------------------------
 Load WN
 ------------------------------------------ */
 
 loadpred(P):-
-  swritef(F,'prolog/wn_%w.pl',[P]),
+  foldl(atom_concat, [P, 'prolog/wn_'], '.pl', F),
   consult(F),
   current_functor(P,A),
-  writef('Loaded %w (%w/%w)\n',[F,P,A]).
+  format("Loaded ~w (~w/~w)\n",[F,P,A]).
 
 loadwn:-
   allwn(L),
@@ -41,4 +41,4 @@ loadwn:-
 loadwn:-
   nl.
 
-:-loadwn.
+:- initialization(loadwn).
