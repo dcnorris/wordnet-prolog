@@ -12,7 +12,7 @@ SWI-prolog program testing for some potential issues in WordNet:
 */
 
 ok:-
-  writeln('OK').
+  write('OK'), nl.
 
 glosspair(A,B,G1,G2):-
   g(A,G1),
@@ -28,7 +28,7 @@ multikey(K):-
   I\=J.
 
 check_keys:-
-  writeln('Searching for ambiguous sense keys'),
+  write('Searching for ambiguous sense keys'), nl,
   findall(X, multikey(X), L),
   list_to_set(L,S),
   member(K,S),
@@ -42,6 +42,7 @@ check_keys:-
 check_keys:-
   ok,
   nl.
+
 
 /* ------------------------------------------
 Symmetry Test
@@ -66,7 +67,7 @@ symcheck:-
   format("Symmetric relations: ~w\n",[L]),
   member(R,L),
   format("Checking symmetry in ~w relation (wn_~w.pl):\n",[R,R]),
-  current_functor(R,N),
+  wnpred_arity(R,N),
   symrel(N,R),
   false.
 symcheck:-
@@ -146,10 +147,9 @@ check_dup(P,_):-
   (N>0 -> outdups(N,P); ok).
 
 check_duplicates:-
-  consult('pred_format.pl'),
   allwn(LR),
   member(P,LR),
-  pred2arity(P,A,L),
+  wnpred_arity(P,A), length(L,A),
   format("Checking duplicates in ~w/~w\n",[P,A]),
   check_dup(P,L),
   false.
@@ -166,7 +166,7 @@ valid:-
   atom_concat('output/wn_valid.pl-Output-',WV,F),
   write(F),
   consult('wn_load.pl'),
-  check_keys, % Takes ~1 hour with Scryer
+  time(check_keys), % Takes ~1 hour with Scryer
   symcheck,
   asymcheck,
   check_duplicates.

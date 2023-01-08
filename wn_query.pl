@@ -46,7 +46,7 @@ Word relations
 wordrel(R,A,B):-
 % R is a relation between synsets, A and B are words
   s(I,_,A,_,_,_),
-  apply(R,[I,J]),
+  call(R,I,J),
   s(J,_,B,_,_,_).
 
 out2set([],_,_,[]).

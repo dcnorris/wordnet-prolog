@@ -5,7 +5,6 @@
 SWI-prolog program to convert all WordNet databases to comma-separated CSV files
 */
 
-:-consult('pred_format.pl').
 :-consult('wn_load.pl').
 
 pred2file(P):-
@@ -21,11 +20,10 @@ list2csv([A,B|T],S0,S2):-
   list2csv([B|T],S1,S2).
 
 out2csv(P):-
-  current_functor(P,A),
-  pred2arity(P,A,L),
+  wnpred_arity(P,A), length(L,A),
   apply(P,L),
   list2csv(L,'',S),
-  writeln(S),
+  write(S), nl,
   false.
 out2csv(_):-
   told.
