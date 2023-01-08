@@ -166,7 +166,7 @@ valid:-
   atom_concat('output/wn_valid.pl-Output-',WV,F),
   write(F),
   consult('wn_load.pl'),
-  time(check_keys), % Takes ~1 hour with Scryer
+  time(check_keys),
   symcheck,
   asymcheck,
   check_duplicates.
